@@ -19,7 +19,6 @@ public class User {
     private Byte age;
 
     public User() {
-
     }
 
     public User(String name, String lastName, Byte age) {
@@ -58,5 +57,11 @@ public class User {
 
     public void setAge(Byte age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        return stringBuilder.append("\nID: ").append(getId()).append(" NAME: ").append(getName()).append(" LASTNAME: ").append(getLastName()).append(" AGE: ").append(getAge()).toString();
     }
 }
