@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    private static final String USERNAME = "User с именем – %s добавлен в базу данных \n";
+    private static final String PRINTF_USERNAME = "User с именем – %s добавлен в базу данных \n";
     private static final String CREATE = "CREATE TABLE IF NOT EXISTS users_table (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30), lastname VARCHAR(30), age INT, PRIMARY KEY(id) );";
     private static final String DROP = "DROP TABLE IF EXISTS users_table;";
     private static final String SAVE = "INSERT INTO users_table (name, lastname, age) VALUES (?, ?, ?);";
-    private static final String SAVEUSER = "INSERT INTO users_table (name, lastname, age) VALUES (?, ?, ?);";
+    private static final String SAVE_USER = "INSERT INTO users_table (name, lastname, age) VALUES (?, ?, ?);";
     private static final String REMOVE = "DELETE FROM users_table WHERE id = ?";
     private static final String CLEAN = "DELETE FROM users_table;";
     private static final String GET = "SELECT id, name, lastname, age FROM users_table;";
-    private static final String GETLASTUSER = "SELECT name FROM users_table ORDER BY id DESC;";
+    private static final String GET_LAST_USER = "SELECT name FROM users_table ORDER BY id DESC;";
     Util util;
     Connection connection;
 
@@ -50,7 +50,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setString(2, lastName);
             preparedStatement.setInt(3, age);
             preparedStatement.executeUpdate();
-            System.out.printf(USERNAME, name);
+            System.out.printf(PRINTF_USERNAME, name);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -58,12 +58,12 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(User user) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SAVEUSER);
+            PreparedStatement preparedStatement = connection.prepareStatement(SAVE_USER);
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setInt(3, user.getAge());
             preparedStatement.executeUpdate();
-            System.out.printf(USERNAME, user.getName());
+            System.out.printf(PRINTF_USERNAME, user.getName());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -101,7 +101,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public String getLastUser() {
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(GETLASTUSER);
+            ResultSet resultSet = statement.executeQuery(GET_LAST_USER);
             resultSet.next();
             return resultSet.getNString("name");
         } catch (Exception exception) {

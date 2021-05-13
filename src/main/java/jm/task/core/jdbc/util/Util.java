@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
+
     private final String URL = "jdbc:mysql://localhost:3306/firsttask?verifyServerCertificate=false&useSSL=false&requireSSL=false&useLegacyDatetimeCode=false&amp&serverTimezone=UTC";
     private final String USERNAME = "root";
     private final String PASSWORD = System.getenv("PASSWORD");
@@ -22,3 +23,4 @@ public class Util {
         }
     }
 }
+

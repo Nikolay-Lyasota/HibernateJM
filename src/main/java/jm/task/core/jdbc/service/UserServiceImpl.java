@@ -28,12 +28,9 @@ public class UserServiceImpl implements UserService {
         userDaoJdbc.removeUserById(id);
     }
 
-    public List<User> getAllUsers() {
-        return userDaoJdbc.getAllUsers();
-    }
+    public List<User> getAllUsers() { return userDaoJdbc.getAllUsers(); }
 
-    public void cleanUsersTable() { userDaoJdbc.cleanUsersTable();
-    }
+    public void cleanUsersTable() { userDaoJdbc.cleanUsersTable(); }
 
     public String getLastUser() { return userDaoJdbc.getLastUser(); }
 }
