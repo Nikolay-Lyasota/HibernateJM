@@ -1,36 +1,38 @@
 package jm.task.core.jdbc.service;
 
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
+import jm.task.core.jdbc.dao.UserDao;
+import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.model.User;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private final UserDaoJDBCImpl userDaoJdbc = new UserDaoJDBCImpl();
+
+    private final UserDao userDao = new UserDaoHibernateImpl();
 
     public void createUsersTable() {
-        userDaoJdbc.createUsersTable();
+        userDao.createUsersTable();
     }
 
     public void dropUsersTable() {
-        userDaoJdbc.dropUsersTable();
+        userDao.dropUsersTable();
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        userDaoJdbc.saveUser(name, lastName, age);
+        userDao.saveUser(name, lastName, age);
     }
 
     public void saveUser(User user) {
-        userDaoJdbc.saveUser(user);
+        userDao.saveUser(user);
     }
 
     public void removeUserById(long id) {
-        userDaoJdbc.removeUserById(id);
+        userDao.removeUserById(id);
     }
 
-    public List<User> getAllUsers() { return userDaoJdbc.getAllUsers(); }
+    public List<User> getAllUsers() { return userDao.getAllUsers(); }
 
-    public void cleanUsersTable() { userDaoJdbc.cleanUsersTable(); }
+    public void cleanUsersTable() { userDao.cleanUsersTable(); }
 
-    public String getLastUser() { return userDaoJdbc.getLastUser(); }
+  //public String getLastUser() { return userDaoJdbc.getLastUser(); }
 }

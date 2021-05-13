@@ -1,18 +1,19 @@
 package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
-import jm.task.core.jdbc.util.HibernateUtil;
+import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import javax.persistence.*;
+import javax.persistence.Query;
+import javax.persistence.RollbackException;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDaoHibernateImpl implements UserDao {
     private static final String PRINTF_USERNAME = "User с именем – %s добавлен в базу данных \n";
     private static final String PRINTF_REMOVE = "User c id %s удалён из БД\n";
-    private static final String PRINTF_CANT_REMOVE = "В БД нет User с id %s\n";
     private static final String CREATE = "CREATE TABLE IF NOT EXISTS users_table (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(30), lastname VARCHAR(30), age INT);";
     private static final String DROP = "DROP TABLE IF EXISTS users_table;";
     private static final String HQL_CLEAN = "DELETE FROM User";
@@ -20,9 +21,8 @@ public class UserDaoHibernateImpl implements UserDao {
     Session session;
     SessionFactory sessionFactory;
 
-
     public UserDaoHibernateImpl() {
-        sessionFactory = HibernateUtil.getSessionFactory();
+        sessionFactory = Util.getSessionFactory();
         session = sessionFactory.openSession();
     }
 
@@ -77,14 +77,10 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void removeUserById(long id) {
         Transaction transaction = session.beginTransaction();
-        User user;
-        user = session.get(User.class, id);
-        if (user != null) {
-            session.delete(user);
+        Optional.ofNullable(session.get(User.class, id)).ifPresent(it -> {
+            session.delete(it);
             System.out.printf(PRINTF_REMOVE, id);
-        } else {
-            System.out.printf(PRINTF_CANT_REMOVE, id);
-        }
+        });
         try {
             transaction.commit();
         } catch (RollbackException e) {

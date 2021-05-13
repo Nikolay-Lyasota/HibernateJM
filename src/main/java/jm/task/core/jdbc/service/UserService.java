@@ -19,5 +19,5 @@ public interface UserService {
 
     void cleanUsersTable();
 
-    String getLastUser();
+ //   String getLastUser();
 }
